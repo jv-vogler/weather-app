@@ -5,3 +5,61 @@
   padding: 0;
   box-sizing: border-box;
 }
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  font-family: Poppins, sans-serif;
+}
+
+.header,
+.footer {
+  height: 120px;
+  background-color: #555;
+}
+
+/* HEADER */
+.header {
+
+}
+
+/* MAIN */
+.main {
+  flex: 1
+}
+
+/* FOOTER */
+.footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.github-link {
+  display: flex;
+  align-items: center;
+  color: white;
+  height: fit-content;
+  padding: 15px;
+}
+
+.fa-github {
+  font-size: 4rem;
+  padding-right: 20px;
+}
+
+.credits {
+  font-size: 14px;
+  text-align: center;
+}
+
+.JV {
+  display: block;
+  font-size: 20px;
+}

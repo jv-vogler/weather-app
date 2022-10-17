@@ -1,1 +1,6 @@
-import "./style.css"
+import "./style.css";
+
+document.addEventListener("DOMContentLoaded", () => {
+  
+});
+
