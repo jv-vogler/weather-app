@@ -26,7 +26,29 @@ body {
 
 /* HEADER */
 .header {
+  display: flex;
+  justify-content: space-between;
+}
 
+.logo {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  color: white;
+}
+
+.logo a {
+  height: 100%;
+}
+
+.logo--text {
+  position: absolute;
+  font-size: 12px;
+  margin: 3px 10px;
+}
+
+.logo--picture {
+  height: 100%;
 }
 
 /* MAIN */
@@ -56,10 +78,12 @@ body {
 
 .credits {
   font-size: 14px;
+  font-weight: bold;
   text-align: center;
 }
 
 .JV {
   display: block;
   font-size: 20px;
+  font-weight: normal;
 }
