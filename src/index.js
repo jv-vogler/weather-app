@@ -1,6 +1,7 @@
 import "./style.css";
 
 document.addEventListener("DOMContentLoaded", () => {
+  // Hamburger Menu
   const hamburger = document.querySelector(".hamburger");
   const navMenu = document.querySelector(".nav-menu");
 
@@ -8,5 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
     hamburger.classList.toggle("active");
     navMenu.classList.toggle("active");
   })
+
+  // Create Card
 });
 
