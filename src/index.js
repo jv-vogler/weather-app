@@ -11,5 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
   })
 
   // Create Card
+  const searchBtn = document.querySelector(".search--btn");
+
 });
 

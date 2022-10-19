@@ -4,14 +4,51 @@
   --gray: #D9D9D9;
   --dark-gray: #A4A4A4;
   --white: #F5F5F5;
-  --shadow: 1px 1px 5px 0px gray;
+  --shadow: 1px 1px 4px 0px gray;
+  --card-width: 335px;
+  --card-height: 200px;
 }
 
+/* Keyframes */
+@keyframes to-right {
+  0% {
+    transform: translateX(-100px);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes to-left {
+  0% {
+    transform: translateX(100px);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Reset */
 *,
 *::after,
 *::before {
-  margin: 0;
-  padding: 0;
+  margin: 0; padding: 0;
   box-sizing: border-box;
 }
 
@@ -44,6 +81,7 @@ body {
   display: flex;
   justify-content: space-between;
   box-shadow: var(--shadow);
+  z-index: 500;
 }
 
 .navbar {
@@ -73,7 +111,7 @@ body {
   height: 3px;
   margin: 5px auto;
   transition: all .4s ease-in-out;
-  background-color: #fff;
+  background-color: var(--accent);
 }
 
 @media(max-width:768px){
@@ -118,7 +156,8 @@ body {
   display: flex;
   flex-direction: column;
   position: relative;
-  color: white;
+  color: var(--white);
+  animation: fade-in 8s backwards;
 }
 
 .logo a {
@@ -129,47 +168,48 @@ body {
   position: absolute;
   font-size: 12px;
   margin: 3px 10px;
+  color: rgba(255, 255, 255, .65)
 }
 
 .logo--picture {
   height: 100%;
 }
 
-/* MAIN */
-.main {
-  display: flex;
-  flex: 1;
-  align-self: center;
-  width: 100%;
-  max-width: 1050px;
-}
-
+/* SEARCH */
 .search {
   display: flex;
+  align-self: center;
   gap: 10px;
   padding: 10px;
   width: 100%;
+  position: relative;
   position: sticky;
+  max-width: 1050px;
 }
 
 .search--bar {
   height: 50px;
   min-width: 150px;
   flex: 1;
-  padding: 20px;
-  border: none; outline: none;
+  padding: 10px 20px 0;
+  border: 3px solid rgba(0, 0, 0, .1); 
+  outline: none;
   border-radius: 25px;
   font-family: inherit;
   font-size: 1rem;
   background-color: var(--gray);
 }
 
+.search--bar:focus {
+  border: 3px solid var(--accent)
+}
+
 .search span {
   position: absolute;
-  left: 10px;
+  left: 15px;
   padding: 10px 20px; margin: 0px 0;
   pointer-events: none;
-  transition: .4s;
+  transition: transform .2s, font-size .2s;
   color: var(--dark-gray);
 }
 
@@ -177,26 +217,58 @@ body {
 .search input:valid ~ span {
   color: var(--accent);
   font-size: 14px;
-  text-shadow: 0 0 2px rgba(0, 0, 0, .2);
-  transform: translateY(-12px);
+  text-shadow: 1px 0 1px rgba(0, 0, 0, .45);
+  transform: translateY(-8px);
 }
 
 .search--btn {
   flex-shrink: 0;
   height: 50px;
   width: 50px;
-  border: none; outline: none;
+  border: 3px solid rgba(0, 0, 0, .1); 
+  outline: none;
   border-radius: 50%;
   font-size: 20px;
   color: var(--black);
   background-color: var(--gray);
   cursor: pointer;
-  transition: color .4s;
 }
 
 .search--btn:hover,
 .search--btn:focus {
   color: var(--accent);
+  border: 3px solid var(--accent);
+}
+
+/* MAIN */
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  align-self: center;
+  width: 100%;
+  max-width: 1050px;
+  overflow-y: auto;
+}
+
+/* CARD */
+.cards-grid {
+  display: grid;
+  justify-content: center;
+  width: 100%;
+  gap: 10px;
+  margin: 10px 0;
+  grid-template-rows: repeat(auto-fit, var(--card-height));
+  grid-template-columns: repeat(auto-fit, var(--card-width));
+}
+
+.card {
+  width: var(--card-width);
+  height: var(--card-height);
+  border-radius: 15px;
+  /* background-color: teal; */
+  box-shadow: var(--shadow);
 }
 
 /* FOOTER */
@@ -204,30 +276,41 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-top: auto;
+  height: 100px;
   z-index: 500;
 }
 
 .github-link {
   display: flex;
   align-items: center;
-  color: white;
+  color: var(--white);
   height: fit-content;
   padding: 15px;
+}
+
+.github-link:hover {  
+  color: var(--accent);
 }
 
 .fa-github {
   font-size: 4rem;
   padding-right: 20px;
+  animation: to-right 1s backwards;
 }
 
 .credits {
   font-size: 14px;
   font-weight: bold;
   text-align: center;
+  animation: to-left .8s backwards;
+  animation-delay: .3s;
 }
 
 .JV {
   display: block;
   font-size: 20px;
   font-weight: normal;
+  animation: to-left 1s backwards;
+  animation-delay: .6s;
 }
