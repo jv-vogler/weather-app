@@ -1,9 +1,9 @@
 :root {
   --accent: #eb6e4b;
   --black: #131515;
-  --gray: #D9D9D9;
-  --dark-gray: #A4A4A4;
-  --white: #F5F5F5;
+  --gray: #d9d9d9;
+  --dark-gray: #a4a4a4;
+  --white: #f5f5f5;
   --shadow: 1px 1px 4px 0px gray;
   --card-width: 335px;
   --card-height: 200px;
@@ -48,7 +48,8 @@
 *,
 *::after,
 *::before {
-  margin: 0; padding: 0;
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
 }
 
@@ -110,24 +111,24 @@ body {
   width: 25px;
   height: 3px;
   margin: 5px auto;
-  transition: all .4s ease-in-out;
+  transition: all 0.4s ease-in-out;
   background-color: var(--accent);
 }
 
-@media(max-width:768px){
+@media (max-width: 768px) {
   .hamburger {
     display: block;
   }
 
-  .hamburger.active .bar:nth-child(2){
+  .hamburger.active .bar:nth-child(2) {
     opacity: 0;
   }
 
-  .hamburger.active .bar:nth-child(1){
+  .hamburger.active .bar:nth-child(1) {
     transform: translateY(8px) rotate(45deg);
   }
 
-  .hamburger.active .bar:nth-child(3){
+  .hamburger.active .bar:nth-child(3) {
     transform: translateY(-8px) rotate(-45deg);
   }
 
@@ -137,10 +138,10 @@ body {
     top: 120px;
     gap: 0;
     flex-direction: column;
-    background-color: rgba(0, 0, 0, .95);
+    background-color: rgba(0, 0, 0, 0.95);
     width: 100%;
     text-align: center;
-    transition: all .4s;
+    transition: all 0.4s;
   }
 
   .nav-item {
@@ -168,7 +169,7 @@ body {
   position: absolute;
   font-size: 12px;
   margin: 3px 10px;
-  color: rgba(255, 255, 255, .65)
+  color: rgba(255, 255, 255, 0.65);
 }
 
 .logo--picture {
@@ -192,7 +193,7 @@ body {
   min-width: 150px;
   flex: 1;
   padding: 10px 20px 0;
-  border: 3px solid rgba(0, 0, 0, .1); 
+  border: 3px solid rgba(0, 0, 0, 0.1);
   outline: none;
   border-radius: 25px;
   font-family: inherit;
@@ -201,15 +202,16 @@ body {
 }
 
 .search--bar:focus {
-  border: 3px solid var(--accent)
+  border: 3px solid var(--accent);
 }
 
 .search span {
   position: absolute;
   left: 15px;
-  padding: 10px 20px; margin: 0px 0;
+  padding: 10px 20px;
+  margin: 0px 0;
   pointer-events: none;
-  transition: transform .2s, font-size .2s;
+  transition: transform 0.2s, font-size 0.2s;
   color: var(--dark-gray);
 }
 
@@ -217,7 +219,7 @@ body {
 .search input:valid ~ span {
   color: var(--accent);
   font-size: 14px;
-  text-shadow: 1px 0 1px rgba(0, 0, 0, .45);
+  text-shadow: 1px 0 1px rgba(0, 0, 0, 0.45);
   transform: translateY(-8px);
 }
 
@@ -225,7 +227,7 @@ body {
   flex-shrink: 0;
   height: 50px;
   width: 50px;
-  border: 3px solid rgba(0, 0, 0, .1); 
+  border: 3px solid rgba(0, 0, 0, 0.1);
   outline: none;
   border-radius: 50%;
   font-size: 20px;
@@ -267,8 +269,110 @@ body {
   width: var(--card-width);
   height: var(--card-height);
   border-radius: 15px;
-  /* background-color: teal; */
   box-shadow: var(--shadow);
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  text-align: center;
+  grid-template-areas:
+    "city city"
+    "temp temp"
+    "feels feels"
+    "weath weath"
+    "min humidity"
+    "max wind";
+}
+
+.city-name {
+  grid-area: city;
+  font-weight: bold;
+  font-size: 24px;
+}
+
+.temperature {
+  grid-area: temp;
+  font-weight: bold;
+  font-size: 32px;
+}
+
+.feels-like {
+  grid-area: feels;
+}
+
+.weather-description {
+  grid-area: weath;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.min {
+  grid-area: min;
+  text-align: right;
+  padding-right: 10px;
+}
+
+.max {
+  grid-area: max;
+  text-align: right;
+  padding-right: 10px;
+}
+
+.humidity {
+  grid-area: humidity;
+  text-align: left;
+  padding-left: 10px;
+}
+
+.wind {
+  grid-area: wind;
+  text-align: left;
+  padding-left: 10px;
+}
+
+.timestamp {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  font-size: 13px;
+  color: var(--white);
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 1px 6px;
+  border-radius: 15px 15px 15px 15px;
+  transform: translateX(-12px);
+  text-align: center;
+  width: 70px;
+}
+
+.favorite-btn {
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: 20px;
+  color: rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+}
+
+.favorite-btn.active {
+  color: gold;
+}
+
+.close-btn,
+.refresh-btn {
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.close-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.refresh-btn {
+  position: absolute;
+  bottom: 0;
+  right: 0;
 }
 
 /* FOOTER */
@@ -289,7 +393,7 @@ body {
   padding: 15px;
 }
 
-.github-link:hover {  
+.github-link:hover {
   color: var(--accent);
 }
 
@@ -303,8 +407,8 @@ body {
   font-size: 14px;
   font-weight: bold;
   text-align: center;
-  animation: to-left .8s backwards;
-  animation-delay: .3s;
+  animation: to-left 0.8s backwards;
+  animation-delay: 0.3s;
 }
 
 .JV {
@@ -312,5 +416,5 @@ body {
   font-size: 20px;
   font-weight: normal;
   animation: to-left 1s backwards;
-  animation-delay: .6s;
+  animation-delay: 0.6s;
 }
