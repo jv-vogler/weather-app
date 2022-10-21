@@ -18,16 +18,16 @@ export default class View {
         <div class="card">
           <p class="city-name">${data.city}, ${data.country}</p>
           <p class="temperature">${data.temp}ºC</p>
-          <p class="feels-like">${data.feelsLike}ºC</p>
+          <p class="feels-like">Sensação: ${data.feelsLike}ºC</p>
           <p class="weather-description">${data.weather}</p>
-          <p class="min">${data.tempMin}ºC</p>
-          <p class="max">${data.tempMax}ºC</p>
-          <p class="humidity">${data.humidity}%</p>
-          <p class="wind">${data.wind}m/s</p>
+          <img class="icon" src="http://openweathermap.org/img/wn/${data.icon}@2x.png">
+          <p class="max"><i class="fa-solid fa-temperature-arrow-up"></i> ${data.tempMax}ºC</p>
+          <p class="min"><i class="fa-solid fa-temperature-arrow-down"></i> ${data.tempMin}ºC</p>
+          <p class="humidity"><i class="fa-solid fa-droplet"></i> ${data.humidity} %</p>
+          <p class="wind"><i class="fa-solid fa-wind"></i> ${data.wind} m/s</p>
           <p class="timestamp">${data.timestamp}</p>
         </div>`;
         const card = this._elementFromHtml(cardHtml);
-
         const favoriteBtn = this._createElement("i", "fa-solid fa-star favorite-btn");
         const closeBtn = this._createElement("i", "fa-solid fa-xmark close-btn");
         closeBtn.addEventListener("click", e => {

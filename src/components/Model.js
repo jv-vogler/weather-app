@@ -3,22 +3,23 @@ export default class Model {
     this.favorites = [];
     this.cards = [
       {
-        city: "Curitiba",
+        city: "Florianópolis",
         country: "BR",
-        feelsLike: 14.89,
+        feelsLike: 22,
         humidity: 71,
-        icon: "10n",
+        icon: "11d",
         id: "curitiba",
-        temp: 15.46,
-        tempMin: 15.05,
-        tempMax: 16.49,
+        temp: 15,
+        tempMax: 23,
+        tempMin: 16,
         timezone: -10800,
         timestamp: "11:23 am",
-        weather: "chuva leve",
-        wind: 1.79,
+        weather: "Chuva leve",
+        wind: 1.7,
       },
     ];
     this.API_KEY = "812725e17f5e8632a2a379e3eba9eef7";
+    this.celsius = true;
   }
 
   async fetchWeather(city) {
@@ -27,13 +28,13 @@ export default class Model {
       const cityWeather = await this._getWeatherData(geoData);
       const result = {
         id: geoData.name.toLowerCase(),
-        temp: cityWeather.main.temp,
-        tempMin: cityWeather.main.temp_min,
-        tempMax: cityWeather.main.temp_max,
-        feelsLike: cityWeather.main.feels_like,
+        temp: Math.round(cityWeather.main.temp),
+        tempMin: Math.round(cityWeather.main.temp_min),
+        tempMax: Math.round(cityWeather.main.temp_max),
+        feelsLike: Math.round(cityWeather.main.feels_like),
         humidity: cityWeather.main.humidity,
-        wind: cityWeather.wind.speed,
-        weather: cityWeather.weather[0].description,
+        wind: (Math.floor(cityWeather.wind.speed * 10)) / 10,
+        weather: this._capitalize(cityWeather.weather[0].description),
         icon: cityWeather.weather[0].icon,
         timezone: cityWeather.timezone,
         timestamp: this._getHours(cityWeather.timezone),
@@ -41,9 +42,10 @@ export default class Model {
         city: geoData.name,
         localNames: geoData.local_names,
       };
+      console.log(result);
       return result;
     } catch (e) {
-      console.error("Invalid city name", e);
+      console.error("Invalid city name");
     }
   }
 
@@ -64,7 +66,7 @@ export default class Model {
       city: data.city,
       localNames: data.localNames,
     };
-    this.cards.push(card);
+    this.cards.unshift(card);
     this.onCardsChanged(this.cards);
   }
 
@@ -87,13 +89,13 @@ export default class Model {
     this.onCardsChanged(this.cards);
   }
 
-  favoriteCard(id) {
-    console.log("favorited card");
-  }
-
   bindCardsChanged(callback) {
     this.onCardsChanged = callback;
   }
+
+  _capitalize(string) {
+          return string.charAt(0).toUpperCase() + string.slice(1);
+        }
 
   _getHours(offset) {
     const date = new Date();

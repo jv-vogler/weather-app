@@ -1,10 +1,11 @@
 :root {
   --accent: #eb6e4b;
   --accent-bg: #eb6e4b2f;
-  --black: #131515;
+  --black: #2D3142;
+  --white: #e5e5e5;
+  --green: #1B998B;
   --gray: #d9d9d9;
   --dark-gray: #a4a4a4;
-  --white: #f5f5f5;
   --shadow: 1px 1px 4px 0px gray;
   --card-width: 335px;
   --card-height: 200px;
@@ -159,7 +160,7 @@ body {
   flex-direction: column;
   position: relative;
   color: var(--white);
-  animation: fade-in 8s backwards;
+  animation: fade-in 4s backwards ease-in-out;
 }
 
 .logo a {
@@ -189,21 +190,30 @@ body {
   max-width: 1050px;
 }
 
+.search--bar,
+.search--btn {
+  border: none;
+}
+
 .search--bar {
   height: 50px;
   min-width: 150px;
   flex: 1;
-  padding: 10px 22px 0;
-  border: 3px solid rgba(0, 0, 0, 0.1);
+  padding: 15px 25px 0;
   outline: none;
   border-radius: 25px;
   font-family: inherit;
-  font-size: 1rem;
+  font-size: 1.2rem;
   font-weight: bold;
   background-color: var(--gray);
   color: var(--black);
   animation: fade-in 1.5s ease-in-out backwards;
   transition: all .4s;
+  caret-color: var(--green);
+}
+
+.search--bar::selection {
+  background: var(--accent);
 }
 
 .search--bar:hover {
@@ -211,7 +221,6 @@ body {
 }
 
 .search--bar:focus {
-  border: 3px solid var(--accent);
   background-color: var(--accent-bg);
 }
 
@@ -227,7 +236,7 @@ body {
 
 .search input:focus ~ span,
 .search input:valid ~ span {
-  color: var(--accent);
+  color: var(--green);
   font-size: 14px;
   text-shadow: 1px 0 1px rgba(0, 0, 0, 0.45);
   transform: translateY(-8px);
@@ -237,7 +246,6 @@ body {
   flex-shrink: 0;
   height: 50px;
   width: 50px;
-  border: 3px solid rgba(0, 0, 0, 0.1);
   outline: none;
   border-radius: 50%;
   font-size: 20px;
@@ -252,7 +260,6 @@ body {
 .search--btn:hover,
 .search--btn:focus {
   color: var(--accent);
-  border: 3px solid var(--accent);
   background-color: var(--accent-bg);
 }
 
@@ -280,22 +287,24 @@ body {
 }
 
 .card {
-  width: var(--card-width);
-  height: var(--card-height);
-  border-radius: 15px;
-  box-shadow: var(--shadow);
-  position: relative;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  align-items: center;
-  text-align: center;
   grid-template-areas:
     "city city"
     "temp temp"
     "feels feels"
     "weath weath"
-    "min humidity"
-    "max wind";
+    "max humidity"
+    "min wind";
+  width: var(--card-width);
+  height: var(--card-height);
+  position: relative;
+  align-items: center;
+  text-align: center;
+  border-radius: 15px;
+  box-shadow: var(--shadow);
+  background-color: #2D3142;
+  color: var(--white);
   animation: fade-in .8s backwards ease-in-out;
 }
 
@@ -313,6 +322,7 @@ body {
 
 .feels-like {
   grid-area: feels;
+  font-size: 14px;
 }
 
 .weather-description {
@@ -321,28 +331,94 @@ body {
   font-size: 20px;
 }
 
+.icon {
+  position: absolute;
+  left: 65px;
+  top: 35px;
+  width: 52px;
+  background-color: var(--green);
+  border-radius: 50%;
+}
+
 .min {
   grid-area: min;
-  text-align: right;
-  padding-right: 10px;
 }
 
 .max {
   grid-area: max;
-  text-align: right;
-  padding-right: 10px;
 }
 
 .humidity {
   grid-area: humidity;
-  text-align: left;
-  padding-left: 10px;
 }
 
 .wind {
   grid-area: wind;
+}
+
+.min,
+.max {
   text-align: left;
-  padding-left: 10px;
+  margin-left: 90px;
+}
+
+.humidity,
+.wind {
+  text-align: left;
+}
+
+.min,
+.max,
+.humidity,
+.wind {
+  padding: 0px 6px;
+}
+
+.fa-temperature-arrow-up,
+.fa-temperature-arrow-down,
+.fa-droplet,
+.fa-wind {
+  font-size: 20px;
+}
+
+.fa-droplet {
+  background-image: linear-gradient(#91EAE4, #86A8E7, #7F7FD5);
+  background-size: 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  -webkit-text-fill-color: transparent; 
+  -moz-text-fill-color: transparent;
+}
+
+.fa-wind {
+  background-image: linear-gradient(to right, #43C6AC, #F8FFAE);
+  background-size: 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  -webkit-text-fill-color: transparent; 
+  -moz-text-fill-color: transparent;
+}
+
+.fa-temperature-arrow-up {
+  background-image: linear-gradient(#ff9a9e 0%, #fad0c4 99%, #fad0c4 100%);
+  background-size: 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  -webkit-text-fill-color: transparent; 
+  -moz-text-fill-color: transparent;
+}
+
+.fa-temperature-arrow-down {
+  background-image: linear-gradient(#a1c4fd 0%, #c2e9fb 100%);
+  background-size: 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  -webkit-text-fill-color: transparent; 
+  -moz-text-fill-color: transparent;
 }
 
 .timestamp {
@@ -350,40 +426,27 @@ body {
   bottom: 0;
   left: 10px;
   font-size: 14px;
+  font-weight: bold;
   color: var(--white);
   background-color: var(--accent);
   padding: 1px 6px;
   border-radius: 0px 15px 0px 15px;
-  transform: translateX(-12px);
+  transform: translateX(-10px);
   text-align: center;
-  width: 70px;
-}
-
-.favorite-btn {
-  position: absolute;
-  top: 7px;
-  left: 7px;
-  font-size: 20px;
-  color: rgba(0, 0, 0, .33);
-  cursor: pointer;
-  padding: 3px;
-  transition: all .4s;
-}
-
-.favorite-btn.active {
-  color: var(--accent);
+  width: 75px;
 }
 
 .close-btn,
-.refresh-btn {
+.refresh-btn,
+.favorite-btn {
   font-size: 20px;
   cursor: pointer;
 }
 
 .close-btn {
   position: absolute;
-  top: 6px;
-  right: 10px;
+  top: 10px;
+  right: 15px;
   transition: all .4s;
 }
 
@@ -393,14 +456,20 @@ body {
 
 .refresh-btn {
   position: absolute;
-  bottom: 6px;
-  right: 10px;
+  bottom: 10px;
+  right: 11px;
   transition: all .4s;
 }
 
 .refresh-btn:hover {
   transform: rotateZ(360deg);
   color: var(--accent)
+}
+
+.favorite-btn {
+  position: absolute;
+  top: 10px;
+  left: 10px;
 }
 
 /* FOOTER */
@@ -419,24 +488,25 @@ body {
   color: var(--white);
   height: fit-content;
   padding: 15px;
-  transition: all .4s;
 }
 
-.github-link:hover {
-  color: var(--accent);
+.credits,
+.JV,
+.fa-github {
+  transition: all .4s;
 }
 
 .fa-github {
   font-size: 4rem;
   padding-right: 20px;
-  animation: to-right 1s backwards;
+  animation: to-right 1s backwards ease-in-out;
 }
 
 .credits {
   font-size: 14px;
   font-weight: bold;
   text-align: center;
-  animation: to-left 0.8s backwards;
+  animation: to-left 0.8s backwards ease-in-out;
   animation-delay: 0.3s;
 }
 
@@ -444,6 +514,14 @@ body {
   display: block;
   font-size: 20px;
   font-weight: normal;
-  animation: to-left 1s backwards;
+  animation: to-left 1s backwards ease-in-out;
   animation-delay: 0.6s;
+}
+
+.github-link:hover .JV {
+  color: var(--accent);
+}
+
+.github-link:hover .fa-github {
+  color: var(--green);
 }
