@@ -3,29 +3,30 @@ export default class Model {
     this.favorites = [];
     this.cards = [
       {
-      city: "Curitiba",
-      country: "BR",
-      feelsLike: 288.07,
-      humidity: 71,
-      icon: "10n",
-      id: "curitiba",
-      temp: 288.61,
-      tempMax: 289.64,
-      tempMin: 288.2,
-      timezone: -10800,
-      weather: "chuva leve",
-      wind : 1.79
-    }
+        city: "Curitiba",
+        country: "BR",
+        feelsLike: 14.89,
+        humidity: 71,
+        icon: "10n",
+        id: "curitiba",
+        temp: 15.46,
+        tempMin: 15.05,
+        tempMax: 16.49,
+        timezone: -10800,
+        timestamp: "11:23 am",
+        weather: "chuva leve",
+        wind: 1.79,
+      },
     ];
     this.API_KEY = "812725e17f5e8632a2a379e3eba9eef7";
   }
 
   async fetchWeather(city) {
     try {
-      const cityWeather = await this._getWeatherData(
-        await this._getGeoLocation(city)
-      );
+      const geoData = await this._getGeoLocation(city);
+      const cityWeather = await this._getWeatherData(geoData);
       const result = {
+        id: geoData.name.toLowerCase(),
         temp: cityWeather.main.temp,
         tempMin: cityWeather.main.temp_min,
         tempMax: cityWeather.main.temp_max,
@@ -35,8 +36,10 @@ export default class Model {
         weather: cityWeather.weather[0].description,
         icon: cityWeather.weather[0].icon,
         timezone: cityWeather.timezone,
+        timestamp: this._getHours(cityWeather.timezone),
         country: cityWeather.sys.country,
-        city: city,
+        city: geoData.name,
+        localNames: geoData.local_names,
       };
       return result;
     } catch (e) {
@@ -46,8 +49,7 @@ export default class Model {
 
   addCard(data) {
     const card = {
-      id: data.city.toLowerCase(),
-      city: data.city,
+      id: data.id,
       temp: data.temp,
       tempMin: data.tempMin,
       tempMax: data.tempMax,
@@ -57,7 +59,10 @@ export default class Model {
       weather: data.weather,
       icon: data.icon,
       timezone: data.timezone,
+      timestamp: data.timestamp,
       country: data.country,
+      city: data.city,
+      localNames: data.localNames,
     };
     this.cards.push(card);
     this.onCardsChanged(this.cards);
@@ -78,7 +83,7 @@ export default class Model {
     card.weather = data.weather;
     card.icon = data.icon;
     card.timezone = data.timezone;
-    card.country = data.country;
+    card.timestamp = data.timestamp;
     this.onCardsChanged(this.cards);
   }
 
@@ -88,6 +93,15 @@ export default class Model {
 
   bindCardsChanged(callback) {
     this.onCardsChanged = callback;
+  }
+
+  _getHours(offset) {
+    const date = new Date();
+    const seconds = (date.getUTCHours() * 60 + date.getUTCMinutes()) * 60 + offset;
+    const hrs = Math.floor(seconds / 3600).toString().padStart(2, "0");
+    const mins = Math.floor(seconds % 3600 / 60).toString().padStart(2, "0");
+
+    return `${hrs}:${mins}`;
   }
 
   async _getGeoLocation(city) {
@@ -101,7 +115,7 @@ export default class Model {
 
   async _getWeatherData(coordinates) {
     const response = await fetch(
-      `https://api.openweathermap.org/data/2.5/weather?lat=${coordinates.lat}&lon=${coordinates.lon}&appid=${this.API_KEY}&lang=pt_br`
+      `https://api.openweathermap.org/data/2.5/weather?lat=${coordinates.lat}&lon=${coordinates.lon}&appid=${this.API_KEY}&units=metric&lang=pt_br`
     );
     const weatherData = await response.json();
 

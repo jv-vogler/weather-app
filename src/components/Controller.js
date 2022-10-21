@@ -3,6 +3,8 @@ export default class Controller {
     this.model = model;
     this.view = view;
     this.view.bindSearch(this.handleSearch);
+    this.view.bindUpdate(this.handleSearch);
+    this.view.bindDelete(this.handleDelete);
     this.model.bindCardsChanged(this.onCardsChanged);
 
     this.onCardsChanged(this.model.cards);
@@ -12,18 +14,21 @@ export default class Controller {
     this.view.drawCards(cards);
   };
 
+  handleDelete = (id) => {
+    this.model.deleteCard(id);
+  }
+
   handleSearch = (city) => {
     this.model
       .fetchWeather(city)
       .then((data) => {
-        const result = this.model.cards.find(
+        const existingCity = this.model.cards.find(
           (element) => element.id === data.city.toLowerCase()
         );
-        result ? this.model.updateCard(result, data) : this.model.addCard(data);
-        console.log(this.model.cards);
+        existingCity ? this.model.updateCard(existingCity, data) : this.model.addCard(data);
       })
       .catch((e) => {
-        console.log(this.model.cards, e);
+        alert("Invalid name (placeholder");
       });
   };
 }

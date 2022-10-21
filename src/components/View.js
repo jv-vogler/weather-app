@@ -1,7 +1,7 @@
 export default class View {
   constructor() {
     this.grid = this._getElement(".cards-grid");
-    this.searchBar = this._getElement(".search--bar")
+    this.searchBar = this._getElement(".search--bar");
     this.searchBtn = this._getElement(".search--btn");
     this._setupHamburgerMenu();
   }
@@ -11,42 +11,49 @@ export default class View {
       this.grid.removeChild(this.grid.firstChild);
     }
     if (cards.length === 0) {
-      console.log("drawCards: empty list");
+      // pass
     } else {
       cards.forEach((data) => {
         const cardHtml = `
         <div class="card">
           <p class="city-name">${data.city}, ${data.country}</p>
-          <p class="temperature">${data.temp}</p>
-          <p class="feels-like">${data.feelsLike}</p>
+          <p class="temperature">${data.temp}ºC</p>
+          <p class="feels-like">${data.feelsLike}ºC</p>
           <p class="weather-description">${data.weather}</p>
-          <p class="min">${data.tempMin}</p>
-          <p class="max">${data.tempMax}</p>
-          <p class="humidity">${data.humidity}</p>
-          <p class="wind">${data.wind}</p>
+          <p class="min">${data.tempMin}ºC</p>
+          <p class="max">${data.tempMax}ºC</p>
+          <p class="humidity">${data.humidity}%</p>
+          <p class="wind">${data.wind}m/s</p>
           <p class="timestamp">${data.timestamp}</p>
         </div>`;
-        const favoriteBtn = this._createElement(
-          "i",
-          "fa-solid fa-star favorite-btn"
-        );
-        const closeBtn = this._createElement(
-          "i",
-          "fa-solid fa-xmark close-btn"
-        );
-        const refreshBtn = this._createElement(
-          "i",
-          "fa-solid fa-arrows-rotate refresh-btn"
-        );
         const card = this._elementFromHtml(cardHtml);
+
+        const favoriteBtn = this._createElement("i", "fa-solid fa-star favorite-btn");
+        const closeBtn = this._createElement("i", "fa-solid fa-xmark close-btn");
+        closeBtn.addEventListener("click", e => {
+          this.deleteCard(data.id);
+        });
+        const refreshBtn = this._createElement("i", "fa-solid fa-arrows-rotate refresh-btn");
+        refreshBtn.addEventListener("click", e => {
+          this.updateCard(data.id);
+        });
+
         card.append(favoriteBtn, closeBtn, refreshBtn);
         this.grid.appendChild(card);
       });
     }
   }
 
+  bindDelete(handler) {
+    this.deleteCard = handler;
+  }
+
+  bindUpdate(handler) {
+    this.updateCard = handler;
+  }
+
   bindSearch(handler) {
-    this.searchBtn.addEventListener("click", (event) => {
+    this.searchBtn.addEventListener("click", event => {
       event.preventDefault();
 
       if (this._cityQuery) {
@@ -61,7 +68,7 @@ export default class View {
   }
 
   _resetInput() {
-    this.searchBar.value = ""
+    this.searchBar.value = "";
   }
 
   _elementFromHtml(html) {

@@ -1,5 +1,6 @@
 :root {
   --accent: #eb6e4b;
+  --accent-bg: #eb6e4b2f;
   --black: #131515;
   --gray: #d9d9d9;
   --dark-gray: #a4a4a4;
@@ -192,17 +193,26 @@ body {
   height: 50px;
   min-width: 150px;
   flex: 1;
-  padding: 10px 20px 0;
+  padding: 10px 22px 0;
   border: 3px solid rgba(0, 0, 0, 0.1);
   outline: none;
   border-radius: 25px;
   font-family: inherit;
   font-size: 1rem;
+  font-weight: bold;
   background-color: var(--gray);
+  color: var(--black);
+  animation: fade-in 1.5s ease-in-out backwards;
+  transition: all .4s;
+}
+
+.search--bar:hover {
+  background-color: var(--accent-bg);
 }
 
 .search--bar:focus {
   border: 3px solid var(--accent);
+  background-color: var(--accent-bg);
 }
 
 .search span {
@@ -234,12 +244,16 @@ body {
   color: var(--black);
   background-color: var(--gray);
   cursor: pointer;
+  animation: fade-in 1.5s ease-in-out backwards;
+  animation-delay: .5s;
+  transition: all .4s;
 }
 
 .search--btn:hover,
 .search--btn:focus {
   color: var(--accent);
   border: 3px solid var(--accent);
+  background-color: var(--accent-bg);
 }
 
 /* MAIN */
@@ -282,6 +296,7 @@ body {
     "weath weath"
     "min humidity"
     "max wind";
+  animation: fade-in .8s backwards ease-in-out;
 }
 
 .city-name {
@@ -333,12 +348,12 @@ body {
 .timestamp {
   position: absolute;
   bottom: 0;
-  left: 0;
-  font-size: 13px;
+  left: 10px;
+  font-size: 14px;
   color: var(--white);
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: var(--accent);
   padding: 1px 6px;
-  border-radius: 15px 15px 15px 15px;
+  border-radius: 0px 15px 0px 15px;
   transform: translateX(-12px);
   text-align: center;
   width: 70px;
@@ -346,15 +361,17 @@ body {
 
 .favorite-btn {
   position: absolute;
-  top: 0;
-  left: 0;
+  top: 7px;
+  left: 7px;
   font-size: 20px;
-  color: rgba(0, 0, 0, 0.5);
+  color: rgba(0, 0, 0, .33);
   cursor: pointer;
+  padding: 3px;
+  transition: all .4s;
 }
 
 .favorite-btn.active {
-  color: gold;
+  color: var(--accent);
 }
 
 .close-btn,
@@ -365,14 +382,25 @@ body {
 
 .close-btn {
   position: absolute;
-  top: 0;
-  right: 0;
+  top: 6px;
+  right: 10px;
+  transition: all .4s;
+}
+
+.close-btn:hover {
+  color: var(--accent);
 }
 
 .refresh-btn {
   position: absolute;
-  bottom: 0;
-  right: 0;
+  bottom: 6px;
+  right: 10px;
+  transition: all .4s;
+}
+
+.refresh-btn:hover {
+  transform: rotateZ(360deg);
+  color: var(--accent)
 }
 
 /* FOOTER */
@@ -391,6 +419,7 @@ body {
   color: var(--white);
   height: fit-content;
   padding: 15px;
+  transition: all .4s;
 }
 
 .github-link:hover {
