@@ -20,7 +20,7 @@ export default class View {
           <p class="temperature">${data.temp}ºC</p>
           <p class="feels-like">Sensação: ${data.feelsLike}ºC</p>
           <p class="weather-description">${data.weather}</p>
-          <img class="icon" src="http://openweathermap.org/img/wn/${data.icon}@2x.png">
+          <img class="icon" src="https://openweathermap.org/img/wn/${data.icon}@2x.png">
           <p class="max"><i class="fa-solid fa-temperature-arrow-up"></i> ${data.tempMax}ºC</p>
           <p class="min"><i class="fa-solid fa-temperature-arrow-down"></i> ${data.tempMin}ºC</p>
           <p class="humidity"><i class="fa-solid fa-droplet"></i> ${data.humidity} %</p>

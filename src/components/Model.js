@@ -2,24 +2,26 @@ export default class Model {
   constructor() {
     this.favorites = [];
     this.cards = [
-      {
-        city: "Florianópolis",
-        country: "BR",
-        feelsLike: 22,
-        humidity: 71,
-        icon: "11d",
-        id: "curitiba",
-        temp: 15,
-        tempMax: 23,
-        tempMin: 16,
-        timezone: -10800,
-        timestamp: "11:23",
-        weather: "Chuva leve",
-        wind: 1.7,
-      },
+      // {
+      //   city: "Florianópolis",
+      //   country: "BR",
+      //   feelsLike: 22,
+      //   humidity: 71,
+      //   icon: "11d",
+      //   id: "curitiba",
+      //   temp: 15,
+      //   tempMax: 23,
+      //   tempMin: 16,
+      //   timezone: -10800,
+      //   timestamp: "11:23",
+      //   weather: "Chuva leve",
+      //   wind: 1.7,
+      // },
     ];
     this.API_KEY = "812725e17f5e8632a2a379e3eba9eef7";
-    this.celsius = true;
+    this.fahrenheit = false;
+    this.am_pm = false;
+    this.lang_en = false;
   }
 
   async fetchWeather(city) {
@@ -92,13 +94,25 @@ export default class Model {
     this.onCardsChanged = callback;
   }
 
+  toggleTemperature() {
+    console.log("");
+  }
+
+  toggleLanguage() {
+    console.log("");
+  }
+
+  toggleTime() {
+    console.log("");
+  }
+
   _capitalize(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
 
   _getLocalTime(offset) {
     const date = Date.now();
-    const localTime = new Date(date + (offset * 1000));
+    const localTime = new Date(date + offset * 1000);
     const hrs = localTime.getUTCHours().toString().padStart(2, "0");
     const mins = localTime.getUTCMinutes().toString().padStart(2, "0");
 
