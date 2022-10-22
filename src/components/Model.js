@@ -13,7 +13,7 @@ export default class Model {
         tempMax: 23,
         tempMin: 16,
         timezone: -10800,
-        timestamp: "11:23 am",
+        timestamp: "11:23",
         weather: "Chuva leve",
         wind: 1.7,
       },
@@ -42,7 +42,6 @@ export default class Model {
         city: geoData.name,
         localNames: geoData.local_names,
       };
-      console.log(result);
       return result;
     } catch (e) {
       console.error(e);
