@@ -133,6 +133,8 @@ label {
   background: var(--gray);
   border-radius: 26px;
   overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .btn-mode-switch > label.btn-mode-switch-inner:before{
@@ -169,17 +171,29 @@ label {
   top: 0;
   z-index: 1;
   margin: 0px;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.btn-mode-switch input[type="checkbox"]:focus {
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .btn-mode-switch input[type="checkbox"]:checked + label.btn-mode-switch-inner:after{
   content: attr(data-on);
   left: 68px;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .btn-mode-switch input[type="checkbox"]:checked + label.btn-mode-switch-inner:before{
   content: attr(data-off);
   right: auto;
   left: 20px;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 /* Hamburger */
@@ -187,6 +201,7 @@ label {
   display: none;
   cursor: pointer;
   padding: 20px;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .bar {
