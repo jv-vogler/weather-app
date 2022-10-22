@@ -33,11 +33,11 @@ export default class Model {
         tempMax: Math.round(cityWeather.main.temp_max),
         feelsLike: Math.round(cityWeather.main.feels_like),
         humidity: cityWeather.main.humidity,
-        wind: (Math.floor(cityWeather.wind.speed * 10)) / 10,
+        wind: Math.floor(cityWeather.wind.speed * 10) / 10,
         weather: this._capitalize(cityWeather.weather[0].description),
         icon: cityWeather.weather[0].icon,
         timezone: cityWeather.timezone,
-        timestamp: this._getHours(cityWeather.timezone),
+        timestamp: this._getLocalTime(cityWeather.timezone),
         country: cityWeather.sys.country,
         city: geoData.name,
         localNames: geoData.local_names,
@@ -45,7 +45,7 @@ export default class Model {
       console.log(result);
       return result;
     } catch (e) {
-      console.error("Invalid city name");
+      console.error(e);
     }
   }
 
@@ -94,14 +94,14 @@ export default class Model {
   }
 
   _capitalize(string) {
-          return string.charAt(0).toUpperCase() + string.slice(1);
-        }
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
 
-  _getHours(offset) {
-    const date = new Date();
-    const seconds = (date.getUTCHours() * 60 + date.getUTCMinutes()) * 60 + offset;
-    const hrs = Math.floor(seconds / 3600).toString().padStart(2, "0");
-    const mins = Math.floor(seconds % 3600 / 60).toString().padStart(2, "0");
+  _getLocalTime(offset) {
+    const date = Date.now();
+    const localTime = new Date(date + (offset * 1000));
+    const hrs = localTime.getUTCHours().toString().padStart(2, "0");
+    const mins = localTime.getUTCMinutes().toString().padStart(2, "0");
 
     return `${hrs}:${mins}`;
   }
