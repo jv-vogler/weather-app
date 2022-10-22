@@ -121,7 +121,7 @@ export default class Model {
 
   async _getGeoLocation(city) {
     const response = await fetch(
-      `http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${this.API_KEY}`
+      `https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${this.API_KEY}`
     );
     const location = await response.json();
 
