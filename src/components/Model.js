@@ -26,8 +26,8 @@ export default class Model {
         country: cityWeather.sys.country,
         city: this._getCityName(cityWeather.name, geoData.local_names),
       };
-      console.log(cityWeather);
-      console.log(geoData);
+      // console.log(cityWeather);
+      // console.log(geoData);
       return result;
     } catch (e) {
       console.error(e);

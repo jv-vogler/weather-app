@@ -73,17 +73,13 @@ body {
   background-color: var(--white);
 }
 
-.header,
-.footer {
-  height: 120px;
-  background-color: var(--black);
-}
-
 /* HEADER */
 .header {
   display: flex;
   justify-content: space-between;
   box-shadow: var(--shadow);
+  height: 120px;
+  background-color: var(--black);
   z-index: 500;
 }
 
@@ -241,11 +237,16 @@ label {
     background-color: rgba(0, 0, 0, 0.95);
     width: 100%;
     text-align: center;
-    transition: all 0.4s;
+    transition: all 0.4s ease;
+    align-items: center;
   }
 
   .nav-item {
-    margin: 16px 0;
+    padding: 40px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
   }
 
   .nav-menu.active {
@@ -409,7 +410,7 @@ label {
 .city-name {
   grid-area: city;
   font-weight: bold;
-  font-size: 24px;
+  font-size: 19px;
 }
 
 .temperature {
@@ -576,8 +577,21 @@ label {
   justify-content: center;
   align-items: center;
   margin-top: auto;
-  height: 100px;
+  /* height: 100px; */
+  /* height: 120px; */
+  background-color: var(--black);
+  box-shadow: var(--shadow);
   z-index: 500;
+}
+
+@media (max-height: 568px) {
+  .footer {
+    display: none;
+  }
+
+  .nav-item {
+    padding: 15px;
+  }
 }
 
 .github-link {
