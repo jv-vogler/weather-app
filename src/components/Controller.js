@@ -23,7 +23,7 @@ export default class Controller {
       .fetchWeather(city)
       .then((data) => {
         const existingCity = this.model.cards.find(
-          (element) => element.id === data.city.toLowerCase()
+          (element) => element.id === data.id
         );
         existingCity
           ? this.model.updateCard(existingCity, data)

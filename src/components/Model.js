@@ -1,23 +1,7 @@
 export default class Model {
   constructor() {
     this.favorites = [];
-    this.cards = [
-      // {
-      //   city: "Florianópolis",
-      //   country: "BR",
-      //   feelsLike: 22,
-      //   humidity: 71,
-      //   icon: "11d",
-      //   id: "curitiba",
-      //   temp: 15,
-      //   tempMax: 23,
-      //   tempMin: 16,
-      //   timezone: -10800,
-      //   timestamp: "11:23",
-      //   weather: "Chuva leve",
-      //   wind: 1.7,
-      // },
-    ];
+    this.cards = JSON.parse(localStorage.getItem("cards")) || [];
     this.API_KEY = "812725e17f5e8632a2a379e3eba9eef7";
     this.fahrenheit = false;
     this.am_pm = false;
@@ -42,6 +26,8 @@ export default class Model {
         country: cityWeather.sys.country,
         city: this._getCityName(cityWeather.name, geoData.local_names),
       };
+      console.log(cityWeather);
+      console.log(geoData);
       return result;
     } catch (e) {
       console.error(e);
@@ -63,15 +49,15 @@ export default class Model {
       timestamp: data.timestamp,
       country: data.country,
       city: data.city,
-      localNames: data.localNames,
+      // localNames: data.localNames,
     };
     this.cards.unshift(card);
-    this.onCardsChanged(this.cards);
+    this._commit(this.cards);
   }
 
   deleteCard(id) {
     this.cards = this.cards.filter((card) => card.id !== id);
-    this.onCardsChanged(this.cards);
+    this._commit(this.cards);
   }
 
   updateCard(card, data) {
@@ -85,7 +71,7 @@ export default class Model {
     card.icon = data.icon;
     card.timezone = data.timezone;
     card.timestamp = data.timestamp;
-    this.onCardsChanged(this.cards);
+    this._commit(this.cards);
   }
 
   bindCardsChanged(callback) {
@@ -99,7 +85,7 @@ export default class Model {
         ? (card.temp = this._convertToF(card.temp))
         : (card.temp = this._convertToC(card.temp));
     });
-    this.onCardsChanged(this.cards);
+    this._commit(this.cards);
   }
 
   toggleLanguage() {
@@ -113,15 +99,13 @@ export default class Model {
         ? (card.timestamp = this._convertToAmPm(card.timestamp))
         : (card.timestamp = this._convertTo24h(card.timestamp));
     });
-    this.onCardsChanged(this.cards);
+    this._commit(this.cards);
   }
 
   _getCityName(name, local_names) {
-    if (local_names.pt) {
-      return local_names.pt;
-    } else if (local_names.en) {
-      return local_names.en;
-    } else return name;
+    if (local_names && local_names.pt) return local_names.pt;
+    if (local_names && local_names.en) return local_names.en;
+    return name;
   }
 
   _getTemperature(temperature) {
@@ -183,6 +167,11 @@ export default class Model {
     const mins = localTime.getUTCMinutes().toString().padStart(2, "0");
 
     return `${hrs}:${mins}`;
+  }
+
+  _commit(cards) {
+    this.onCardsChanged(cards);
+    localStorage.setItem("cards", JSON.stringify(cards));
   }
 
   async _getGeoLocation(city) {
