@@ -3,6 +3,10 @@ export default class View {
     this.grid = this._getElement(".cards-grid");
     this.searchBar = this._getElement(".search--bar");
     this.searchBtn = this._getElement(".search--btn");
+    this.toggleTempBtn = this._getElement("#toggle-temp");
+    this.toggleTimeBtn = this._getElement("#toggle-time");
+    this.toggleLangBtn = this._getElement("#toggle-lang");
+    this.tempScale = this._getElement(".temp-scale");
     this._setupHamburgerMenu();
   }
 
@@ -17,24 +21,33 @@ export default class View {
         const cardHtml = `
         <div class="card">
           <p class="city-name">${data.city}, ${data.country}</p>
-          <p class="temperature">${data.temp}ºC</p>
-          <p class="feels-like">Sensação: ${data.feelsLike}ºC</p>
+          <p class="temperature">${data.temp}<span class="temp-scale">ºC</span></p>
+          <p class="feels-like">Sensação: ${data.feelsLike}<span class="temp-scale">ºC</span></p>
           <p class="weather-description">${data.weather}</p>
           <img class="icon" src="https://openweathermap.org/img/wn/${data.icon}@2x.png">
-          <p class="max"><i class="fa-solid fa-temperature-arrow-up"></i> ${data.tempMax}ºC</p>
-          <p class="min"><i class="fa-solid fa-temperature-arrow-down"></i> ${data.tempMin}ºC</p>
+          <p class="max"><i class="fa-solid fa-temperature-arrow-up"></i> ${data.tempMax}<span class="temp-scale">ºC</span></p>
+          <p class="min"><i class="fa-solid fa-temperature-arrow-down"></i> ${data.tempMin}<span class="temp-scale">ºC</span></p>
           <p class="humidity"><i class="fa-solid fa-droplet"></i> ${data.humidity} %</p>
           <p class="wind"><i class="fa-solid fa-wind"></i> ${data.wind} m/s</p>
           <p class="timestamp">${data.timestamp}</p>
         </div>`;
         const card = this._elementFromHtml(cardHtml);
-        const favoriteBtn = this._createElement("i", "fa-solid fa-star favorite-btn");
-        const closeBtn = this._createElement("i", "fa-solid fa-xmark close-btn");
-        closeBtn.addEventListener("click", e => {
+        const favoriteBtn = this._createElement(
+          "i",
+          "fa-solid fa-star favorite-btn"
+        );
+        const closeBtn = this._createElement(
+          "i",
+          "fa-solid fa-xmark close-btn"
+        );
+        closeBtn.addEventListener("click", (e) => {
           this.deleteCard(data.id);
         });
-        const refreshBtn = this._createElement("i", "fa-solid fa-arrows-rotate refresh-btn");
-        refreshBtn.addEventListener("click", e => {
+        const refreshBtn = this._createElement(
+          "i",
+          "fa-solid fa-arrows-rotate refresh-btn"
+        );
+        refreshBtn.addEventListener("click", (e) => {
           this.updateCard(data.id);
         });
 
@@ -53,7 +66,7 @@ export default class View {
   }
 
   bindSearch(handler) {
-    this.searchBtn.addEventListener("click", event => {
+    this.searchBtn.addEventListener("click", (event) => {
       event.preventDefault();
 
       if (this._cityQuery) {

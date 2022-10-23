@@ -21,7 +21,6 @@ export default class Model {
     this.API_KEY = "812725e17f5e8632a2a379e3eba9eef7";
     this.fahrenheit = false;
     this.am_pm = false;
-    this.lang_en = false;
   }
 
   async fetchWeather(city) {
@@ -30,10 +29,10 @@ export default class Model {
       const cityWeather = await this._getWeatherData(geoData);
       const result = {
         id: geoData.name.toLowerCase(),
-        temp: Math.round(cityWeather.main.temp),
-        tempMin: Math.round(cityWeather.main.temp_min),
-        tempMax: Math.round(cityWeather.main.temp_max),
-        feelsLike: Math.round(cityWeather.main.feels_like),
+        temp: this._getTemperature(cityWeather.main.temp),
+        tempMin: this._getTemperature(cityWeather.main.temp_min),
+        tempMax: this._getTemperature(cityWeather.main.temp_max),
+        feelsLike: this._getTemperature(cityWeather.main.feels_like),
         humidity: cityWeather.main.humidity,
         wind: Math.floor(cityWeather.wind.speed * 10) / 10,
         weather: this._capitalize(cityWeather.weather[0].description),
@@ -41,8 +40,7 @@ export default class Model {
         timezone: cityWeather.timezone,
         timestamp: this._getLocalTime(cityWeather.timezone),
         country: cityWeather.sys.country,
-        city: geoData.name,
-        localNames: geoData.local_names,
+        city: this._getCityName(cityWeather.name, geoData.local_names),
       };
       return result;
     } catch (e) {
@@ -95,15 +93,83 @@ export default class Model {
   }
 
   toggleTemperature() {
-    console.log("");
+    const toggleBtn = document.querySelector("#toggle-temp");
+    this.cards.forEach((card) => {
+      toggleBtn.checked
+        ? (card.temp = this._convertToF(card.temp))
+        : (card.temp = this._convertToC(card.temp));
+    });
+    this.onCardsChanged(this.cards);
   }
 
   toggleLanguage() {
-    console.log("");
+    //
   }
 
   toggleTime() {
-    console.log("");
+    const toggleBtn = document.querySelector("#toggle-time");
+    this.cards.forEach((card) => {
+      toggleBtn.checked
+        ? (card.timestamp = this._convertToAmPm(card.timestamp))
+        : (card.timestamp = this._convertTo24h(card.timestamp));
+    });
+    this.onCardsChanged(this.cards);
+  }
+
+  _getCityName(name, local_names) {
+    if (local_names.pt) {
+      return local_names.pt;
+    } else if (local_names.en) {
+      return local_names.en;
+    } else return name;
+  }
+
+  _getTemperature(temperature) {
+    if (this.fahrenheit) {
+      return Math.round(this._convertToF(temperature));
+    } else {
+      return Math.round(temperature);
+    }
+  }
+
+  _convertToF(temperature) {
+    // 32 -> 89.6
+    return Math.round((temperature * 1.8 + 32) * 10) / 10;
+  }
+
+  _convertToC(temperature) {
+    // 70 -> 21.1
+    return Math.round((temperature - 32) * 0.5556 * 10) / 10;
+  }
+
+  _getTimestamp(timestamp) {
+    if (this.am_pm) {
+      return this._convertToAmPm(timestamp);
+    } else {
+      return timestamp;
+    }
+  }
+
+  _convertTo24h(time) {
+    // 11:30 PM -> 23:30
+    const hrs = parseInt(time.slice(0, 2));
+    const mins = time.slice(3, 5);
+    const am_pm = time.slice(-2);
+
+    if (am_pm === "PM" && hrs === 12) return `00:${mins}`;
+    if (am_pm === "PM" && hrs < 12)
+      return `${(hrs + 12).toString().padStart(2, "0")}:${mins}`;
+    if (hrs < 13) return `${hrs.toString().padStart(2, "0")}:${mins}`;
+  }
+
+  _convertToAmPm(time) {
+    // 23:30 -> 11:30 PM
+    const hrs = parseInt(time.slice(0, 2));
+    const mins = time.slice(-2);
+
+    if (hrs === 0) return `12:${mins} PM`;
+    if (hrs < 13) return `${hrs.toString().padStart(2, "0")}:${mins} AM`;
+    if (hrs < 24) return `${(hrs - 12).toString().padStart(2, "0")}:${mins} PM`;
   }
 
   _capitalize(string) {

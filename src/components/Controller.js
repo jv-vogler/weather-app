@@ -16,7 +16,7 @@ export default class Controller {
 
   handleDelete = (id) => {
     this.model.deleteCard(id);
-  }
+  };
 
   handleSearch = (city) => {
     this.model
@@ -25,10 +25,12 @@ export default class Controller {
         const existingCity = this.model.cards.find(
           (element) => element.id === data.city.toLowerCase()
         );
-        existingCity ? this.model.updateCard(existingCity, data) : this.model.addCard(data);
+        existingCity
+          ? this.model.updateCard(existingCity, data)
+          : this.model.addCard(data);
       })
       .catch((e) => {
-        alert("Invalid name (placeholder");
+        alert("Invalid name");
       });
   };
 }
