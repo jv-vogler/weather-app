@@ -1,10 +1,13 @@
 export default class Model {
   constructor() {
+    this.API_KEY = "812725e17f5e8632a2a379e3eba9eef7";
     this.favorites = [];
     this.cards = JSON.parse(localStorage.getItem("cards")) || [];
-    this.API_KEY = "812725e17f5e8632a2a379e3eba9eef7";
-    this.fahrenheit = false;
-    this.am_pm = false;
+    this.settings = JSON.parse(localStorage.getItem("settings")) || {
+      tempScale: "ºC",
+      timeFormat: "24h",
+      language: "pt",
+    };
   }
 
   async fetchWeather(city) {
@@ -25,9 +28,9 @@ export default class Model {
         timestamp: this._getLocalTime(cityWeather.timezone),
         country: cityWeather.sys.country,
         city: this._getCityName(cityWeather.name, geoData.local_names),
+        tempScale: this.settings.tempScale,
+        //? timeFormat: this.settings.timeFormat,
       };
-      // console.log(cityWeather);
-      // console.log(geoData);
       return result;
     } catch (e) {
       console.error(e);
@@ -49,7 +52,8 @@ export default class Model {
       timestamp: data.timestamp,
       country: data.country,
       city: data.city,
-      // localNames: data.localNames,
+      tempScale: data.tempScale,
+      //? localNames: data.localNames,
     };
     this.cards.unshift(card);
     this._commit(this.cards);
@@ -71,6 +75,31 @@ export default class Model {
     card.icon = data.icon;
     card.timezone = data.timezone;
     card.timestamp = data.timestamp;
+    card.tempScale = data.tempScale;
+    this._commit(this.cards);
+  }
+
+  toggleTemperature() {
+    this.settings.tempScale === "ºF"
+      ? (this.settings.tempScale = "ºC")
+      : (this.settings.tempScale = "ºF");
+    this.cards.forEach((card) => {
+      card.temp = this._convertTemperature(card.temp);
+      card.tempMin = this._convertTemperature(card.tempMin);
+      card.tempMax = this._convertTemperature(card.tempMax);
+      card.feelsLike = this._convertTemperature(card.feelsLike);
+      card.tempScale = this.settings.tempScale;
+    });
+    this._commit(this.cards);
+  }
+
+  toggleTimeFormat() {
+    this.settings.timeFormat === "24h"
+      ? (this.settings.timeFormat = "12h")
+      : (this.settings.timeFormat = "24h");
+    this.cards.forEach((card) => {
+      card.timestamp = this._convertTimeFormat(card.timestamp);
+    });
     this._commit(this.cards);
   }
 
@@ -78,64 +107,43 @@ export default class Model {
     this.onCardsChanged = callback;
   }
 
-  toggleTemperature() {
-    const toggleBtn = document.querySelector("#toggle-temp");
-    this.cards.forEach((card) => {
-      toggleBtn.checked
-        ? (card.temp = this._convertToF(card.temp))
-        : (card.temp = this._convertToC(card.temp));
-    });
-    this._commit(this.cards);
+  //* Private Methods / Métodos Privados
+  _convertTemperature(temperature) {
+    if (this.settings.tempScale === "ºC") {
+      return Math.round(this._convertToC(temperature));
+    } else {
+      return Math.round(this._convertToF(temperature));
+    }
   }
 
-  toggleLanguage() {
-    //
+  _convertToF(temperature) {
+    //* 32 -> 89.6
+    return Math.round((temperature * 1.8 + 32) * 10) / 10;
   }
 
-  toggleTime() {
-    const toggleBtn = document.querySelector("#toggle-time");
-    this.cards.forEach((card) => {
-      toggleBtn.checked
-        ? (card.timestamp = this._convertToAmPm(card.timestamp))
-        : (card.timestamp = this._convertTo24h(card.timestamp));
-    });
-    this._commit(this.cards);
-  }
-
-  _getCityName(name, local_names) {
-    if (local_names && local_names.pt) return local_names.pt;
-    if (local_names && local_names.en) return local_names.en;
-    return name;
+  _convertToC(temperature) {
+    //* 70 -> 21.1
+    return Math.round((temperature - 32) * 0.5556 * 10) / 10;
   }
 
   _getTemperature(temperature) {
-    if (this.fahrenheit) {
+    if (this.settings.tempScale === "ºF") {
       return Math.round(this._convertToF(temperature));
     } else {
       return Math.round(temperature);
     }
   }
 
-  _convertToF(temperature) {
-    // 32 -> 89.6
-    return Math.round((temperature * 1.8 + 32) * 10) / 10;
-  }
-
-  _convertToC(temperature) {
-    // 70 -> 21.1
-    return Math.round((temperature - 32) * 0.5556 * 10) / 10;
-  }
-
-  _getTimestamp(timestamp) {
-    if (this.am_pm) {
-      return this._convertToAmPm(timestamp);
+  _convertTimeFormat(timestamp) {
+    if (this.settings.timeFormat === "24h") {
+      return this._convertTo24h(timestamp);
     } else {
-      return timestamp;
+      return this._convertTo12h(timestamp);
     }
   }
 
   _convertTo24h(time) {
-    // 11:30 PM -> 23:30
+    //* 11:30 PM -> 23:30
     const hrs = parseInt(time.slice(0, 2));
     const mins = time.slice(3, 5);
     const am_pm = time.slice(-2);
@@ -146,8 +154,8 @@ export default class Model {
     if (hrs < 13) return `${hrs.toString().padStart(2, "0")}:${mins}`;
   }
 
-  _convertToAmPm(time) {
-    // 23:30 -> 11:30 PM
+  _convertTo12h(time) {
+    //* 23:30 -> 11:30 PM
     const hrs = parseInt(time.slice(0, 2));
     const mins = time.slice(-2);
 
@@ -156,8 +164,12 @@ export default class Model {
     if (hrs < 24) return `${(hrs - 12).toString().padStart(2, "0")}:${mins} PM`;
   }
 
-  _capitalize(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
+  _getTimestamp(timestamp) {
+    if (this.settings.timeFormat === "12h") {
+      return this._convertTo12h(timestamp);
+    } else {
+      return timestamp;
+    }
   }
 
   _getLocalTime(offset) {
@@ -165,13 +177,26 @@ export default class Model {
     const localTime = new Date(date + offset * 1000);
     const hrs = localTime.getUTCHours().toString().padStart(2, "0");
     const mins = localTime.getUTCMinutes().toString().padStart(2, "0");
+    const timestamp = this._getTimestamp(`${hrs}:${mins}`);
 
-    return `${hrs}:${mins}`;
+    return timestamp;
+  }
+
+  _getCityName(name, local_names) {
+    // TODO - rework logic once language is implemented
+    if (local_names && local_names.pt) return local_names.pt;
+    if (local_names && local_names.en) return local_names.en;
+    return name;
+  }
+
+  _capitalize(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
   }
 
   _commit(cards) {
     this.onCardsChanged(cards);
     localStorage.setItem("cards", JSON.stringify(cards));
+    localStorage.setItem("settings", JSON.stringify(this.settings));
   }
 
   async _getGeoLocation(city) {

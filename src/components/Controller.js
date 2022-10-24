@@ -22,11 +22,11 @@ export default class Controller {
     this.model
       .fetchWeather(city)
       .then((data) => {
-        const existingCity = this.model.cards.find(
+        const cardExists = this.model.cards.find(
           (element) => element.id === data.id
         );
-        existingCity
-          ? this.model.updateCard(existingCity, data)
+        cardExists
+          ? this.model.updateCard(cardExists, data)
           : this.model.addCard(data);
       })
       .catch((e) => {

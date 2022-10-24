@@ -15,18 +15,18 @@ export default class View {
       this.grid.removeChild(this.grid.firstChild);
     }
     if (cards.length === 0) {
-      // pass
+      // TODO
     } else {
       cards.forEach((data) => {
         const cardHtml = `
         <div class="card">
           <p class="city-name">${data.city}, ${data.country}</p>
-          <p class="temperature">${data.temp}<span class="temp-scale">ºC</span></p>
-          <p class="feels-like">Sensação: ${data.feelsLike}<span class="temp-scale">ºC</span></p>
+          <p class="temperature">${data.temp}${data.tempScale}</p>
+          <p class="feels-like">Sensação: ${data.feelsLike}${data.tempScale}</p>
           <p class="weather-description">${data.weather}</p>
           <img class="icon" src="https://openweathermap.org/img/wn/${data.icon}@2x.png">
-          <p class="max"><i class="fa-solid fa-temperature-arrow-up"></i> ${data.tempMax}<span class="temp-scale">ºC</span></p>
-          <p class="min"><i class="fa-solid fa-temperature-arrow-down"></i> ${data.tempMin}<span class="temp-scale">ºC</span></p>
+          <p class="max"><i class="fa-solid fa-temperature-arrow-up"></i> ${data.tempMax}${data.tempScale}</p>
+          <p class="min"><i class="fa-solid fa-temperature-arrow-down"></i> ${data.tempMin}${data.tempScale}</p>
           <p class="humidity"><i class="fa-solid fa-droplet"></i> ${data.humidity} %</p>
           <p class="wind"><i class="fa-solid fa-wind"></i> ${data.wind} m/s</p>
           <p class="timestamp">${data.timestamp}</p>
@@ -80,6 +80,7 @@ export default class View {
     return this.searchBar.value;
   }
 
+  //* Private Methods / Métodos Privados
   _resetInput() {
     this.searchBar.value = "";
   }
