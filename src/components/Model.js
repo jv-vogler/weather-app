@@ -33,7 +33,7 @@ export default class Model {
       };
       return result;
     } catch (e) {
-      console.error(e);
+      console.error(e); // TODO
     }
   }
 

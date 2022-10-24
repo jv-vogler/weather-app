@@ -10,6 +10,12 @@ export default class View {
     this._setupHamburgerMenu();
   }
 
+  setupButtons(settings) {
+    if (settings.tempScale === "ºF") this.toggleTempBtn.checked = true;
+    if (settings.timeFormat === "12h") this.toggleTimeBtn.checked = true;
+    if (settings.language === "en") this.toggleLangBtn.checked = true;
+  }
+
   drawCards(cards) {
     while (this.grid.firstChild) {
       this.grid.removeChild(this.grid.firstChild);
@@ -76,11 +82,19 @@ export default class View {
     });
   }
 
+  bindTempToggle(handler) {
+    this.toggleTempBtn.addEventListener("change", handler);
+  }
+
+  bindTimeToggle(handler) {
+    this.toggleTimeBtn.addEventListener("change", handler);
+  }
+
+  //* Private Methods / Métodos Privados
   get _cityQuery() {
     return this.searchBar.value;
   }
 
-  //* Private Methods / Métodos Privados
   _resetInput() {
     this.searchBar.value = "";
   }

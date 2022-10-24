@@ -2,8 +2,6 @@ import Model from "./src/components/Model";
 
 describe("Model", () => {
   const model = new Model();
-  model.fahrenheit = false;
-  model.am_pm = false;
 
   // test("Celsius to Fahrenheit", () => {
   //   expect(model._getTemperature(32)).toBe(0);
