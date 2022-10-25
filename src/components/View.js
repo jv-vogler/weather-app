@@ -28,7 +28,7 @@ export default class View {
       cards.forEach((data) => {
         const cardHtml = `
         <div class="card">
-          <p class="city-name">${data.city}, ${data.country}</p>
+          <p class="city-name">${data.city.name}, ${data.country}</p>
           <p class="temperature">${data.temp}${data.tempScale}</p>
           <p class="feels-like"><span data-key="feels-like"></span>${data.feelsLike}${data.tempScale}</p>
           <p class="weather-description">${data.weather.description}</p>

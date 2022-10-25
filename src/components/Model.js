@@ -18,7 +18,7 @@ export default class Model {
       const cityWeather = await this._getWeatherData(geoData);
       const result = {
         id: geoData.name.toLowerCase(),
-        city: this._getCityName(geoData), //* original city name
+        city: this._getCityNames(cityWeather.name, geoData), //* original city name
         country: geoData.country,
         feelsLike: this._getTemperature(cityWeather.main.feels_like),
         humidity: cityWeather.main.humidity,
@@ -31,10 +31,7 @@ export default class Model {
         timezone: cityWeather.timezone,
         weather: this._getWeatherDescriptions(cityWeather.weather[0]),
         wind: Math.floor(cityWeather.wind.speed * 10) / 10,
-        // ? localNames
       };
-      // console.log("CityWeather: ", cityWeather); //! console
-      // console.log("GeoData: ", geoData); //! console
       return result;
     } catch (e) {
       console.error(e); // TODO
@@ -57,7 +54,6 @@ export default class Model {
       timezone: data.timezone,
       weather: data.weather,
       wind: data.wind,
-      //? localNames: data.localNames,
     };
     this.cards.unshift(card);
     this._commit(this.cards);
@@ -88,6 +84,7 @@ export default class Model {
     this.settings.tempScale === "ºF"
       ? (this.settings.tempScale = "ºC")
       : (this.settings.tempScale = "ºF");
+
     this.cards.forEach((card) => {
       card.temp = this._convertTemperature(card.temp);
       card.tempMin = this._convertTemperature(card.tempMin);
@@ -102,6 +99,7 @@ export default class Model {
     this.settings.timeFormat === "24h"
       ? (this.settings.timeFormat = "12h")
       : (this.settings.timeFormat = "24h");
+
     this.cards.forEach((card) => {
       card.timestamp = this._convertTimeFormat(card.timestamp);
     });
@@ -109,19 +107,22 @@ export default class Model {
   }
 
   toggleLanguage() {
-    //TODO - update local city name
-    if (this.settings.language === "pt_br") {
-      this.settings.language = "en";
-    } else {
-      this.settings.language = "pt_br";
-    }
-    this.cards.forEach((card) => {
-      const desc = card.weather.description;
-      const alt = card.weather.alt;
-      card.weather.description = alt;
-      card.weather.alt = desc;
-    });
+    this.settings.language === "pt_br"
+      ? (this.settings.language = "en")
+      : (this.settings.language = "pt_br");
 
+    this.cards.forEach((card) => {
+      //* City names
+      if (card.city.alt) {
+        const name = card.city.name;
+        card.city.name = card.city.alt;
+        card.city.alt = name;
+      }
+      //* Weather descriptions
+      const description = card.weather.description;
+      card.weather.description = card.weather.alt;
+      card.weather.alt = description;
+    });
     this._commit(this.cards);
   }
 
@@ -208,15 +209,18 @@ export default class Model {
     return timestamp;
   }
 
-  _getCityName(data) {
-    if (data.local_names) {
-      if (this.settings.language === "pt_br" && data.local_names.pt)
-        return data.local_names.pt;
-      else if (this.settings.language === "en" && data.local_names.en) {
-        return data.local_names.en;
-      }
+  _getCityNames(defaultName, data) {
+    if (!data.local_names) return { name: defaultName || data.name };
+
+    const city = { name: null, alt: null };
+    if (this.settings.language === "pt_br") {
+      city.name = data.local_names.pt || defaultName || data.name;
+      city.alt = data.local_names.en;
+    } else if (this.settings.language === "en") {
+      city.name = data.local_names.en || defaultName || data.name;
+      city.alt = data.local_names.pt;
     }
-    return data.name;
+    return city;
   }
 
   _getWeatherDescriptions(data) {
