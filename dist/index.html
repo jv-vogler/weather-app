@@ -24,7 +24,7 @@
 
     <header class="header">
       <a href="https://openweathermap.org/" target="_blank" rel="noopener noreferrer" class="logo">
-        <small class="logo--text">Weather data provided by:</small>
+        <small class="logo--text" data-key="attribution">Weather data provided by:</small>
         <img class="logo--picture" src="./logo.png" alt="Open Weather">
       </a>
       <nav class="navbar">
@@ -67,23 +67,23 @@
       </nav>
     </header>
 
-    <form class="search" action="">
+    <form class="search" autocomplete="off">
       <input type="text" required="required" class="search--bar" spellcheck="false" placeholder="">
-      <span>Search City</span>
+      <span data-key="search-city">Search City</span>
       <button type="submit" class="search--btn">
         <i class="fa-solid fa-magnifying-glass"></i>
       </button>
     </form>
     
     <main class="main">
-      <div class="cards-grid">
-      </div>
+      <section class="cards-grid">
+      </section>
     </main>
 
     <footer class="footer">
       <a href="https://github.com/jv-vogler" class="github-link" target="_blank" rel="noopener noreferrer">
         <i class="fa-brands fa-github"></i>
-        <small class="credits">&copy; Made by: <span class="JV">JV Vogler</span></small>
+        <small class="credits">&copy; <span data-key="created-by">Feito por: </span><span class="JV">JV Vogler</span></small>
       </a>
     </footer>
 

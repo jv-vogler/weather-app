@@ -1,3 +1,5 @@
+import localizedString from "./languages.json";
+
 export default class View {
   constructor() {
     this.grid = this._getElement(".cards-grid");
@@ -28,7 +30,7 @@ export default class View {
         <div class="card">
           <p class="city-name">${data.city}, ${data.country}</p>
           <p class="temperature">${data.temp}${data.tempScale}</p>
-          <p class="feels-like">Sensação: ${data.feelsLike}${data.tempScale}</p>
+          <p class="feels-like"><span data-key="feels-like"></span>${data.feelsLike}${data.tempScale}</p>
           <p class="weather-description">${data.weather}</p>
           <img class="icon" src="https://openweathermap.org/img/wn/${data.icon}@2x.png">
           <p class="max"><i class="fa-solid fa-temperature-arrow-up"></i> ${data.tempMax}${data.tempScale}</p>
@@ -88,6 +90,21 @@ export default class View {
 
   bindTimeToggle(handler) {
     this.toggleTimeBtn.addEventListener("change", handler);
+  }
+
+  bindLanguageToggle(handler) {
+    this.toggleLangBtn.addEventListener("change", handler);
+  }
+
+  applyLanguage(lang) {
+    document.querySelectorAll("[data-key]").forEach((element) => {
+      const key = element.getAttribute("data-key");
+      const language = lang.slice(0, 2);
+      if (key) {
+        element.textContent = localizedString.language[language].string[key];
+        if (element.getAttribute("value")) element.setAttribute("value", localizedString.language[language].string[key])
+      }
+    });
   }
 
   //* Private Methods / Métodos Privados

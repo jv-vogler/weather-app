@@ -1,0 +1,20 @@
+{
+    "language": {
+        "en": {
+            "string": {
+                "attribution": "Weather data provided by:",
+                "search-city": "Search City",
+                "feels-like": "Feels like: ",
+                "created-by": "Created by:"
+            }
+        },
+        "pt": {
+            "string": {
+                "attribution": "Dados metereológicos por:",
+                "search-city": "Procurar Cidade",
+                "feels-like": "Sensação: ",
+                "created-by": "Criado por:"
+            }
+        }
+    }
+}

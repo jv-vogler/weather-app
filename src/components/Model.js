@@ -6,7 +6,7 @@ export default class Model {
     this.settings = JSON.parse(localStorage.getItem("settings")) || {
       tempScale: "ºC",
       timeFormat: "24h",
-      language: "pt",
+      language: "pt_br",
     };
   }
 
@@ -29,8 +29,10 @@ export default class Model {
         country: cityWeather.sys.country,
         city: this._getCityName(cityWeather.name, geoData.local_names),
         tempScale: this.settings.tempScale,
-        //? timeFormat: this.settings.timeFormat,
+        //? localNames
+        //? weatherCode: cityWeather.weather[0].id,
       };
+      // console.log(cityWeather);
       return result;
     } catch (e) {
       console.error(e); // TODO
@@ -103,8 +105,20 @@ export default class Model {
     this._commit(this.cards);
   }
 
+  toggleLanguage() {
+    this.settings.language === "en"
+      ? (this.settings.language = "pt_br")
+      : (this.settings.language = "en");
+    //TODO - update description & local city name
+    this._commit(this.cards);
+  }
+
   bindCardsChanged(callback) {
     this.onCardsChanged = callback;
+  }
+
+  bindLangChanged(callback) {
+    this.onLangChanged = callback;
   }
 
   //* Private Methods / Métodos Privados
@@ -183,10 +197,40 @@ export default class Model {
   }
 
   _getCityName(name, local_names) {
-    // TODO - rework logic once language is implemented
-    if (local_names && local_names.pt) return local_names.pt;
-    if (local_names && local_names.en) return local_names.en;
+    // TODO - test
+    if (local_names && local_names.pt && this.settings.language === "pt-br")
+      return local_names.pt;
+    if (local_names && local_names.en && this.settings.language === "en")
+      return local_names.en;
     return name;
+  }
+
+  _getWeatherDescription(weather) {
+    //! Not sure
+    if (this.settings.language === "pt-br")
+      return this._capitalize(weather.description);
+    switch (weather.id) {
+      case 200:
+        return "Thunderstorm with light rain";
+      case 201:
+        return "Thunderstorm with rain";
+      case 202:
+        return "Thunderstorm with heavy rain";
+      case 210:
+        return "Light thunderstorm";
+      case 211:
+        return "Thunderstorm";
+      case 212:
+        return "Heavy thunderstorm";
+      case 221:
+        return "Ragged thunderstorm";
+      case 230:
+        return "Thunderstorm with light drizzle";
+      case 231:
+        return "Thunderstorm with drizzle";
+      case 232:
+        return "Thunderstorm with heavy drizzle";
+    }
   }
 
   _capitalize(string) {
@@ -195,6 +239,7 @@ export default class Model {
 
   _commit(cards) {
     this.onCardsChanged(cards);
+    this.onLangChanged(this.settings.language);
     localStorage.setItem("cards", JSON.stringify(cards));
     localStorage.setItem("settings", JSON.stringify(this.settings));
   }

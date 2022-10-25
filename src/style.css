@@ -260,6 +260,7 @@ label {
   position: relative;
   color: var(--white);
   animation: fade-in 4s backwards ease-in-out;
+  user-select: none;
 }
 
 .logo a {
@@ -287,6 +288,10 @@ label {
   position: relative;
   position: sticky;
   max-width: 1050px;
+}
+
+.search span {
+  user-select: none;
 }
 
 .search--bar,
@@ -437,6 +442,7 @@ label {
   width: 52px;
   background-color: var(--green);
   border-radius: 50%;
+  user-select: none;
 }
 
 .min {

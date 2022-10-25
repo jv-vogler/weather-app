@@ -8,14 +8,21 @@ export default class Controller {
     this.view.bindDelete(this.handleDelete);
     this.view.bindTempToggle(this.handleTempToggle);
     this.view.bindTimeToggle(this.handleTimeToggle);
+    this.view.bindLanguageToggle(this.handleLangToggle);
     this.model.bindCardsChanged(this.onCardsChanged);
+    this.model.bindLangChanged(this.onLangChanged);
 
     this.onCardsChanged(this.model.cards);
+    this.onLangChanged(this.model.settings.language);
   }
 
   onCardsChanged = (cards) => {
     this.view.drawCards(cards);
   };
+
+  onLangChanged = (lang) => {
+    this.view.applyLanguage(lang);
+  }
 
   handleDelete = (id) => {
     this.model.deleteCard(id);
@@ -27,6 +34,10 @@ export default class Controller {
 
   handleTimeToggle = () => {
     this.model.toggleTimeFormat();
+  }
+
+  handleLangToggle = () => {
+    this.model.toggleLanguage();
   }
 
   handleSearch = (city) => {
