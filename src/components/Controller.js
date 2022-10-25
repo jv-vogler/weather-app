@@ -22,7 +22,7 @@ export default class Controller {
 
   onLangChanged = (lang) => {
     this.view.applyLanguage(lang);
-  }
+  };
 
   handleDelete = (id) => {
     this.model.deleteCard(id);
@@ -30,15 +30,15 @@ export default class Controller {
 
   handleTempToggle = () => {
     this.model.toggleTemperature();
-  }
+  };
 
   handleTimeToggle = () => {
     this.model.toggleTimeFormat();
-  }
+  };
 
   handleLangToggle = () => {
     this.model.toggleLanguage();
-  }
+  };
 
   handleSearch = (city) => {
     this.model

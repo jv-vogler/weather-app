@@ -31,7 +31,7 @@ export default class View {
           <p class="city-name">${data.city}, ${data.country}</p>
           <p class="temperature">${data.temp}${data.tempScale}</p>
           <p class="feels-like"><span data-key="feels-like"></span>${data.feelsLike}${data.tempScale}</p>
-          <p class="weather-description">${data.weather}</p>
+          <p class="weather-description">${data.weather.description}</p>
           <img class="icon" src="https://openweathermap.org/img/wn/${data.icon}@2x.png">
           <p class="max"><i class="fa-solid fa-temperature-arrow-up"></i> ${data.tempMax}${data.tempScale}</p>
           <p class="min"><i class="fa-solid fa-temperature-arrow-down"></i> ${data.tempMin}${data.tempScale}</p>
@@ -65,6 +65,25 @@ export default class View {
     }
   }
 
+  applyLanguage(lang) {
+    /**
+     ** Aplica strings de 'languages.json' baseado nos valores da data-key correspondente.
+     *  @param {string} lang - Idioma da página nas 'settings' do Model.
+     */
+    this._getElement("html").setAttribute("lang", lang);
+    document.querySelectorAll("[data-key]").forEach((element) => {
+      const key = element.getAttribute("data-key");
+      if (key) {
+        element.textContent = localizedString.language[lang].string[key];
+        if (element.getAttribute("value"))
+          element.setAttribute(
+            "value",
+            localizedString.language[lang].string[key]
+          );
+      }
+    });
+  }
+
   bindDelete(handler) {
     this.deleteCard = handler;
   }
@@ -94,17 +113,6 @@ export default class View {
 
   bindLanguageToggle(handler) {
     this.toggleLangBtn.addEventListener("change", handler);
-  }
-
-  applyLanguage(lang) {
-    document.querySelectorAll("[data-key]").forEach((element) => {
-      const key = element.getAttribute("data-key");
-      const language = lang.slice(0, 2);
-      if (key) {
-        element.textContent = localizedString.language[language].string[key];
-        if (element.getAttribute("value")) element.setAttribute("value", localizedString.language[language].string[key])
-      }
-    });
   }
 
   //* Private Methods / Métodos Privados
@@ -144,7 +152,6 @@ export default class View {
   _setupHamburgerMenu() {
     const hamburger = this._getElement(".hamburger");
     const navMenu = this._getElement(".nav-menu");
-
     hamburger.addEventListener("click", () => {
       hamburger.classList.toggle("active");
       navMenu.classList.toggle("active");
