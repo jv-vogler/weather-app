@@ -421,19 +421,21 @@ label {
 .min,
 .max {
   text-align: left;
-  margin-left: 90px;
+  padding-right: 5px;
+  margin-left: 93px;
 }
 
 .humidity,
 .wind {
   text-align: left;
+  padding-left: 5px;
 }
 
 .min,
 .max,
 .humidity,
 .wind {
-  padding: 0px 6px;
+  /* padding: 0px 15px; */
 }
 
 .fa-temperature-arrow-up,
