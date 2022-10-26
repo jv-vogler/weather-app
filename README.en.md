@@ -1,6 +1,6 @@
 # [Weather App](https://jv-vogler.github.io/weather-app/) 
 
-[![en](https://img.shields.io/badge/README%20em-português-brightgreen.svg)](../blob/main/README.md) 
+[![en](https://img.shields.io/badge/README%20em-português-brightgreen.svg)](../main/README.md) 
 
 Weather forecast for cities around the world.
 

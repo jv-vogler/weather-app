@@ -1,6 +1,6 @@
 # [Weather App](https://jv-vogler.github.io/weather-app/) 
 
-[![en](https://img.shields.io/badge/README%20in-english-red.svg)](../blob/main/README.en.md) 
+[![en](https://img.shields.io/badge/README%20in-english-red.svg)](../main/README.en.md) 
 
 Previsão do tempo de cidades ao redor do mundo.
 
