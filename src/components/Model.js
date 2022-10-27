@@ -18,7 +18,7 @@ export default class Model {
       const cityWeather = await this._getWeatherData(geoData);
       const result = {
         id: geoData.name.toLowerCase(),
-        city: this._getCityNames(cityWeather.name, geoData), //* original city name
+        city: this._getCityNames(cityWeather.name, geoData),
         country: geoData.country,
         feelsLike: this._getTemperature(cityWeather.main.feels_like),
         humidity: cityWeather.main.humidity,
@@ -114,14 +114,10 @@ export default class Model {
     this.cards.forEach((card) => {
       //* City names
       if (card.city.alt) {
-        const name = card.city.name;
-        card.city.name = card.city.alt;
-        card.city.alt = name;
+        [card.city.name, card.city.alt] = [card.city.alt, card.city.name]
       }
       //* Weather descriptions
-      const description = card.weather.description;
-      card.weather.description = card.weather.alt;
-      card.weather.alt = description;
+      [card.weather.description, card.weather.alt] = [card.weather.alt, card.weather.description]
     });
     this._commit(this.cards);
   }
