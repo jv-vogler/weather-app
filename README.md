@@ -19,7 +19,7 @@ Previsão do tempo de cidades ao redor do mundo.
 - Webpack (transpilar, minificar, etc)
 
 ## Sobre o projeto
-Um desafio do [Projeto Odin](https://www.theodinproject.com/lessons/node-path-javascript-weather-app) com intuito de praticar APIs, Promises, JavaScript assíncrono e callbacks, porém, decidir ir além dos requisitos e explorar na prática tópicos como a arquitetura MVC.
+Um desafio do [Projeto Odin](https://www.theodinproject.com/lessons/node-path-javascript-weather-app) com intuito de praticar APIs, Promises, JavaScript assíncrono e callbacks, porém, decidi ir além dos requisitos e explorar na prática tópicos como a arquitetura MVC.
 
 Visto que é um App sem dados complexos, escolhi utilizar o localStorage para armazenar os cartões e preferências de configurações do usuário devido à praticidade comparado a algo como IndexedDB.
 
