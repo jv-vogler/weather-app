@@ -13,10 +13,13 @@ Weather forecast for cities around the world.
 - Alternate page language (pt-br / en).
 
 ## Tools utilized
-- HTML
-- pure CSS
-- pure JavaScript
-- Webpack (transpile, minification, etc)
+[<img alt="Visual Studio Code" width="50px" style="padding-right: 10px" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg" />](https://code.visualstudio.com/)
+[<img  alt="HTML5" width="50px" style="padding-right: 10px" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" />](https://www.w3schools.com/html/)
+[<img  alt="CSS3" width="50px" style="padding-right: 10px" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" />](https://www.w3schools.com/css/)
+[<img  alt="JavaScript" width="50px" style="padding-right: 10px" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" />](https://www.w3schools.com/js/)
+[<img  alt="Webpack" width="50px" style=" padding-right: 10px" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/webpack/webpack-original.svg" />](https://webpack.js.org/)
+[<img  alt="Babel" width="50px" style=" padding-right: 10px" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/babel/babel-original.svg" />](https://babeljs.io/)
+[<img  alt="PostCSS" width="50px" style=" padding-right: 10px" src="https://raw.githubusercontent.com/postcss/brand/a07ead1904a641cc06ad233235290de2ecf33ea1/dist/postcss-logo-symbol.svg" />](https://postcss.org/)
 
 ## About the project
 An assignment from [The Odin Project](https://www.theodinproject.com/lessons/node-path-javascript-weather-app) with the goal of practicing APIs, Promises, async JavaScript and callbacks, however, I chose to go beyond the requirements and explore in practice topics like the MVC architecture.
